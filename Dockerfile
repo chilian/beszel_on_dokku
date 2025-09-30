@@ -1,0 +1,3 @@
+ARG BESZEL_VERSION="0.12.12"
+
+FROM henrygd/beszel:$BESZEL_VERSION
