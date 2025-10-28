@@ -94,4 +94,4 @@ Your Beszel instance should now be running on your Dokku host 🎉
 Happy monitoring!
 
 ## 📜 License
-[MIT License](https://github.com/chilian/beszel_on_dokku/blob/main/LICENSE) © Christoph Chilian
+[MIT License](https://github.com/chilian/beszel_on_dokku/blob/main/LICENSE) © [Christoph Chilian](https://chilian.de?utm_source=github&utm_campaign=beszel_on_dokku)
