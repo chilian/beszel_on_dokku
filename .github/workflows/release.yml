@@ -1,0 +1,29 @@
+name: Check for new beszel version and create release
+
+on:
+  schedule:
+    - cron: '22 * * * *'   # runs at minute 22 of every hour
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  releaser:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for tags
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Call release script
+        shell: bash
+        run: ./create_new_release.sh
+
