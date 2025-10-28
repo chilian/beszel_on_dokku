@@ -25,5 +25,7 @@ jobs:
 
       - name: Call release script
         shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./create_new_release.sh
 
