@@ -6,6 +6,11 @@
 This repository provides a simple way to deploy [Beszel](https://beszel.dev/), a lightweight and open-source monitoring tool, on a [Dokku](https://dokku.com/) host.  
 Dokku acts as a mini-PaaS on top of Docker, making deployment and management straightforward.
 
+
+**Note:** This project is a wrapper that adds an extra deployment layer on top of Beszel, primarily created as a hobby/tinkering project. You can also deploy Beszel directly using the official Docker image via `dokku git:sync`.
+
+This project is not affiliated with Beszel.
+
 ---
 
 ## ⚡ Quick Start
