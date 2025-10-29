@@ -59,8 +59,11 @@ if ! git diff-index --quiet HEAD --; then
   exit 1
 fi
 
+# Remove 'v' prefix for Dockerfile version
+RELEASE_WITHOUT_V="${RELEASE#v}"
+
 log_debug "Updating Dockerfile..."
-sed -i "s#ARG BESZEL_VERSION.*#ARG BESZEL_VERSION=\"${RELEASE}\"#" Dockerfile
+sed -i "s#ARG BESZEL_VERSION.*#ARG BESZEL_VERSION=\"${RELEASE_WITHOUT_V}\"#" Dockerfile
 
 BESZEL_BADGE="[![Beszel](https://img.shields.io/badge/Beszel-${RELEASE}-blue.svg)](https://github.com/henrygd/beszel/releases/tag/${RELEASE})"
 log_debug "Updating README.md badge..."
