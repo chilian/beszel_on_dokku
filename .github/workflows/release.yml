@@ -23,9 +23,31 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Call release script
+      - name: Update beszel version
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./create_new_release.sh
+        run: ./update_beszel_version.sh
+
+      - name: Get latest tag
+        id: get_tag
+        run: |
+          TAG=$(git tag --sort=-version:refname | head -1)
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "Latest tag: $TAG"
+
+      - name: Create GitHub Release
+        if: steps.get_tag.outputs.tag != ''
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.get_tag.outputs.tag }}
+          release_name: Release ${{ steps.get_tag.outputs.tag }}
+          body: |
+            Automated release for Beszel version ${{ steps.get_tag.outputs.tag }}
+            
+            See upstream changes: https://github.com/henrygd/beszel/releases/tag/${{ steps.get_tag.outputs.tag }}
+          draft: false
+          prerelease: false
 
