@@ -1,4 +1,4 @@
-[![Beszel](https://img.shields.io/badge/Beszel-v0.15.3-blue.svg)](https://github.com/henrygd/beszel/releases/tag/v0.15.3)
+[![Beszel](https://img.shields.io/badge/Beszel-v0.15.4-blue.svg)](https://github.com/henrygd/beszel/releases/tag/v0.15.4)
 [![Dokku](https://img.shields.io/badge/Dokku-Repo-blue.svg)](https://github.com/dokku/dokku)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/chilian/beszel_on_dokku/graphs/commit-activity)
 
