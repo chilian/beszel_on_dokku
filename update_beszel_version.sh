@@ -3,7 +3,7 @@ set -euo pipefail
 trap 'echo "Error on line $LINENO. Exit code: $?" >&2; exit 1' ERR
 trap 'echo "Script interrupted by user" >&2; exit 130' INT
 
-readonly REPO_API="https://api.github.com/repos/henrygd/beszel/tags"
+readonly REPO_API="https://api.github.com/repos/henrygd/beszel/releases/latest"
 readonly COLOR_GREEN='\033[0;32m'
 readonly COLOR_BOLD_WHITE='\033[1;37m'
 readonly COLOR_RESET='\033[0m'
@@ -13,9 +13,9 @@ log_info() {
 }
 
 log_debug() {
-  #if [[ "${DEBUG:-0}" == "1" ]]; then
-    echo -e "${COLOR_BOLD_WHITE}[👉]${COLOR_RESET} $1" >&2
-  #fi
+  if [[ "${DEBUG:-0}" == "1" ]]; then
+    echo -e "${COLOR_BOLD_WHITE}[DEBUG]${COLOR_RESET} $1" >&2
+  fi
 }
 
 log_info "Pull origin..."
@@ -37,7 +37,7 @@ else
 fi
 
 log_debug "Fetching latest release from: $REPO_API"
-RELEASE=$(curl "${CURL_OPTS[@]}" "$REPO_API" | jq -r '.[0].name // empty')
+RELEASE=$(curl "${CURL_OPTS[@]}" "$REPO_API" | jq -r '.tag_name // empty')
 
 if [[ -z "$RELEASE" ]]; then
   echo "Error: Failed to fetch latest release from $REPO_API" >&2
@@ -63,11 +63,11 @@ fi
 RELEASE_WITHOUT_V="${RELEASE#v}"
 
 log_debug "Updating Dockerfile..."
-sed -i "s#ARG BESZEL_VERSION.*#ARG BESZEL_VERSION=\"${RELEASE_WITHOUT_V}\"#" Dockerfile
+perl -pi -e "s#ARG BESZEL_VERSION.*#ARG BESZEL_VERSION=\"${RELEASE_WITHOUT_V}\"#" Dockerfile
 
 BESZEL_BADGE="[![Beszel](https://img.shields.io/badge/Beszel-${RELEASE}-blue.svg)](https://github.com/henrygd/beszel/releases/tag/${RELEASE})"
 log_debug "Updating README.md badge..."
-sed -i "s#\[\!\[Beszel\].*#${BESZEL_BADGE}#" README.md
+perl -pi -e "s#\[!\[Beszel\].*#${BESZEL_BADGE}#" README.md
 
 log_debug "Committing changes..."
 git add Dockerfile README.md
